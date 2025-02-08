@@ -72,13 +72,13 @@ def get_discount():
 
 def login():
     browser.find_element(By.CLASS_NAME, 'user-info').click()
-    browser.find_element(By.ID, 'field-email').send_keys('alexpp2809@gmail.com')
-    browser.find_element(By.ID, 'field-password').send_keys('Qwe1234567@rs*')  # 12345678
+    browser.find_element(By.NAME, 'email').send_keys('alexpp2809@gmail.com')
+    browser.find_element(By.NAME, 'password').send_keys('Qwe1234567@rs*')  # 12345678
     browser.find_element(By.ID, 'submit-login').click()
     time.sleep(10)
 
 if __name__ == '__main__':
-    #service = FirefoxService(executable_path='./geckodriver')  # set webdriver path
+    # service = FirefoxService(executable_path='./geckodriver')  # set webdriver path
     service = FirefoxService(executable_path='/usr/local/bin/geckodriver')  # set webdriver path
     firefox_options = webdriver.FirefoxOptions()
     firefox_options.headless = True
