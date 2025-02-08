@@ -1,7 +1,9 @@
+version: '3.8'
+
 services:
   dbmysql:
     container_name: psmysql
-    image: mysql
+    image: mysql:5.7
     cap_add:
       - SYS_NICE
     volumes:
@@ -14,14 +16,22 @@ services:
     ports:
       - "3308:3306"
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      default:
+        ipv4_address: 172.18.0.2  # IP fija para dbmysql
 
   pspresta:
     container_name: psweb
     volumes:
       - prestadata:/var/www/html
     depends_on:
-      - dbmysql
-    image: prestashop/prestashop
+      dbmysql:
+        condition: service_healthy
+    image: prestashop/prestashop:1.7.7.7
     ports:
       - "8088:80"
       - "9000"
@@ -32,7 +42,18 @@ services:
       DB_PASSWD: ps
       DB_NAME: ps
     restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: 172.18.0.3  # IP fija para psweb
+
 volumes:
   mysqldata:
   prestadata:
 
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1
