@@ -2,7 +2,7 @@ import os
 import sys
 import traceback
 import logging.handlers
-import settings
+import settings.config
 
 
 def import_config():
@@ -26,8 +26,8 @@ def import_config():
 import_config()
 
 
-log_name = settings.LOG_FILE
-log_path = settings.LOG_PATH
+log_name = settings.config.LOG_FILE
+log_path = settings.config.LOG_PATH
 full_log_path = str(log_path + '/' + log_name)
 
 # log_handler = logging.StreamHandler(sys.stdout) allow print logs in the console

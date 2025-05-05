@@ -1,6 +1,0 @@
-pyshark
-selenium
-scapy
-iterators
-fastapi
-uvicorn[standard]
